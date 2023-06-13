@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript DOM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <div class="container mb-4">
+        <h1 class="mb-4 text-center">Contact Information</h1>
+        <form id="contact-form">
+            <label for="name" class="form-label mb-3">Name:</label>
+            <input id="name" class="form-control mb-3" type="text" required>
+            <label for="email" class="form-label mb-3">Email:</label>
+            <input id="email" class="form-control mb-3" type="text" required>
+            <label for="phone" class="form-label mb-3">Phone:</label>
+            <input id="phone" class="form-control mb-3" type="tel" required>
+            <button id="" class="btn btn-primary mb-3" type="submit">Add Contact</button>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">DEL</th>
+                </tr>
+            </thead>
+            <tbody id="contact-table-body">
+
+
+            </tbody>
+        </table>
+    </div>
+    <script>
+        let contacts = [
+            {
+                id: '1',
+                name: 'John Smith',
+                email: 'johnsmith@mail.ru',
+                phone: '+81-555-55-55'
+            },
+            {
+                id: '2 ',
+                name: 'Jahongir',
+                email: 'Jahongir.obloqulov95@mail.ru',
+                phone: '+998-91-412-16-73'
+            },
+            {
+                id: '3',
+                name: "Sa'dijon",
+                email: 'medical24@mail.ru',
+                phone: '+998-91-250-76-66'
+            }
+        ]
+        let tableBody = document.getElementById('contact-table-body');
+        function showTableBody(arr) {
+            tableBody.innerText = "";
+            for (let i = 0; i < arr.length; i++) {
+                let contact = arr[i];
+                let row = document.createElement('tr');
+                let orderCell = document.createElement('td');
+                contact.id = i + 1;
+                orderCell.textContent = contact.id;
+                row.appendChild(orderCell);
+                let nameCell = document.createElement('td');
+                nameCell.textContent = contact.name;
+                row.appendChild(nameCell);
+                let emailCell = document.createElement('td');
+                emailCell.textContent = contact.email;
+                row.appendChild(emailCell);
+                let phoneCell = document.createElement('td');
+                phoneCell.textContent = contact.phone;
+                row.appendChild(phoneCell);
+                let deleteCell = document.createElement('td');
+                let deleteButton = document.createElement('button');
+                deleteButton.textContent = "Delete";
+
+                deleteButton.addEventListener("click", function () {
+                    deleteContact(i);
+                });
+
+                deleteCell.appendChild(deleteButton);
+                row.appendChild(deleteCell);
+                tableBody.appendChild(row);
+            }
+        }
+        function deleteContact(index) {
+            contacts.splice(index, 1);
+            showTableBody(contacts);
+        }
+        showTableBody(contacts);
+
+        let contactForm = document.getElementById('contact-form');
+        contactForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            let nameInput = document.getElementById('name');
+            let emailInput = document.getElementById('email');
+            let phoneInput = document.getElementById('phone');
+
+            let newContact = {
+                name: nameInput.value,
+                email: emailInput.value,
+                phone: phoneInput.value
+            }
+            contacts.push(newContact);
+            showTableBody(contacts);
+            nameInput.value = "";
+            emailInput.value = "";
+            phoneInput.value = "";
+        })
+
+    </script>
+</body>
+
+</html>
